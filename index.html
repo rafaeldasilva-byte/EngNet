@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A.N.G.E.L.I.C.A. - Plataforma de Localidades</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
+    <!-- Importação do Google Fonts (Kiwi Maru e short stack Handrawn) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Short+Stack&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Fontes Locais */
+        @font-face { 
+            font-family: 'KyivType Serif'; 
+            src: url('./fonts/KyivTypeSerif-Regular.otf') format('truetype'); 
+        }
+        @font-face { 
+            font-family: 'KyivType Sans'; 
+            src: url('./fonts/KyivTypeSerif-Light.otf') format('truetype'); 
+        }
+
+        body { font-family: 'KyivType Sans', sans-serif; overflow-x: hidden; }
+        
+        .font-title { font-family: 'Kiwi Maru', serif; }
+        .font-subtitle { font-family: 'KyivType Serif', serif; }
+        .font-hand { font-family: 'Short Stack', cursive; }
+    </style>
+</head>
+<body class="bg-white min-h-screen text-gray-800 text-[24px]">
+
+    <!-- Header -->
+    <header class="bg-[#3A7C48] text-white py-12 bg-cover bg-center" style="background-image: url('./img/Group\ 8.png');">
+        <div class="container mx-auto px-4 text-center">
+            <!-- Aplicada a fonte estilo manual e tamanho 48px -->
+            <h2 class="text-[48px] font-hand tracking-widest mb-2 leading-none">A.N.G.E.L.I.C.A.</h2>
+            <h1 class="text-[48px] font-title font-bold uppercase tracking-wider leading-none">Plataforma de Localidades</h1>
+        </div>
+    </header>
+
+    <!-- Layout Dividido -->
+    <div class="flex w-full relative min-h-[600px] overflow-x-hidden">
+        
+        <!-- Menu Lateral -->
+        <aside id="sidebar" class="flex w-[300px] shrink-0 border-r border-gray-300 flex-col bg-white shadow-lg z-20 absolute h-full top-0 left-0 lg:relative transition-all duration-300 ease-in-out -ml-[300px]">
+            <div class="bg-[#3A7C48] p-6 flex justify-between items-center text-white">
+                <span class="text-[32px] font-subtitle">UF</span>
+                <button id="close-sidebar-btn" class="bg-[#A5CA8E] rounded-full p-2 hover:opacity-80 transition-opacity">
+                    <img src="./img/keyboard_arrow_left.png" alt="Fechar Menu" class="w-5 h-5"> 
+                </button>
+            </div>
+            <ul id="sidebar-uf-list" class="flex flex-col overflow-y-auto max-h-[700px]">
+                <!-- Renderizado via JS -->
+            </ul>
+        </aside>
+
+        <!-- Área Principal -->
+        <main class="flex-1 w-full relative py-8">
+            
+            <!-- Botão para abrir o Menu Lateral -->
+            <button id="open-sidebar-btn" class="absolute left-4 top-8 bg-[#A5CA8E] rounded-full p-3 hover:opacity-80 transition-opacity z-10 shadow-md">
+                <img src="./img/keyboard_arrow_rigth.png" alt="Abrir Menu" class="w-6 h-6">
+            </button>
+
+            <!-- CONTÊINER INTERNO CENTRALIZADO -->
+            <div class="max-w-[1200px] mx-auto px-10 md:px-20">
+                
+                <!-- Controles Superiores -->
+                <div class="flex flex-col lg:flex-row justify-between items-center mb-10 gap-6">
+                    
+                    <!-- Accordion Central -->
+                    <div class="w-full md:w-[350px] relative z-10">
+                        <button id="uf-accordion-btn" class="w-full bg-[#EBF2EB] border border-[#A5CA8E] text-[#3A7C48] rounded-full px-6 py-3 flex justify-between items-center shadow-sm hover:bg-[#A5CA8E] hover:text-white transition-colors">
+                            <span id="selected-uf-text" class="font-semibold">Selecione uma UF</span>
+                            <img src="./img/keyboard_arrow_up.png" alt="Seta" class="w-5 h-5"> 
+                        </button>
+                        
+                        <div id="uf-list-container" class="hidden absolute w-full bg-white border border-[#A5CA8E] mt-2 rounded-lg shadow-lg max-h-64 overflow-y-auto">
+                            <ul id="uf-list" class="flex flex-col text-[#3A7C48]">
+                                <!-- UFs renderizadas pelo JS -->
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- KPIs Dinâmicos -->
+                    <div class="flex flex-row items-center gap-6 font-subtitle text-[32px] text-black whitespace-nowrap">
+                        <p>ID UF: <span id="kpi-uf-id" class="font-bold">xxxxxxx</span></p>
+                        <p>Cidades encontradas: <span id="kpi-total-cities" class="font-bold">XX</span></p>
+                    </div>
+                </div>
+
+                <!-- Container Verde de Municípios -->
+                <section class="bg-[#A5CA8E] p-8 md:p-12 rounded-[2rem] shadow-inner min-h-[500px]">
+                    
+                    <!-- Filtro Local de Municípios -->
+                    <div class="relative w-full md:w-[450px] mb-10 mx-auto lg:mx-0">
+                        <input type="text" id="search-city-input" placeholder="Busque por um município" 
+                            class="w-full pl-6 pr-12 py-4 rounded-full border border-[#3A7C48] focus:outline-none focus:ring-2 focus:ring-[#3A7C48] bg-[#EBF2EB] text-[#3A7C48] placeholder-[#7ca185] disabled:opacity-50" disabled>
+                        <img src="./img/icon.png" alt="Buscar" class="absolute right-5 top-1/2 transform -translate-y-1/2 w-6 h-6"> 
+                    </div>
+
+                    <!-- Grid de Cidades Centralizadas -->
+                    <div id="cities-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center justify-center mx-auto">
+                        <div class="col-span-full text-center text-white font-bold mt-20 text-[28px]">
+                            Selecione um estado para carregar os municípios.
+                        </div>
+                    </div>
+
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
