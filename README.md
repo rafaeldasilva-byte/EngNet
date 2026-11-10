@@ -2,7 +2,7 @@
 
 Projeto desenvolvido como parte do **Desafio 3** do programa de trainee da **EngNet**, com foco na fidelidade visual e estruturação web a partir de um protótipo construído no Figma.
 
-🔗 **[Acessar o Projeto (GitHub Pages)](https://www.google.com/search?q=https://rafaeldasilva-byte.github.io/EngNet/)**
+🔗 **[Acessar o Projeto (GitHub Pages)](https://rafaeldasilva-byte.github.io/EngNet/)**
 
 🎨 **[Visualizar Protótipo no Figma](https://www.figma.com/design/erp9NeXDHFwpsZ9nYBWNgX/Desafio3-Frontend?node-id=0-1&t=plgikNlCtrHXvoXK-0)**
 
